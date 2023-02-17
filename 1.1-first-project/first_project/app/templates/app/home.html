@@ -1,14 +1,11 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Домашняя страница</title>
-</head>
-<body>
+{% extends 'app/layout.html' %}
+
+{% block title %}Главная{% endblock %}
+
+{% block content %}
     <h1>Выберите раздел</h1>
     {% for title, url in pages.items %}
         <a href="{{ url }}">{{ title }}</a>
         <br>
     {% endfor %}
-</body>
-</html>
+{% endblock %}
