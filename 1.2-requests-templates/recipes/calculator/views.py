@@ -16,15 +16,29 @@ DATA = {
         'сыр, ломтик': 1,
         'помидор, ломтик': 1,
     },
+    'firmennoe': {
+        'куриная грудка, г': 200,
+        'лук репчатый, г': 50,
+        'соевый соус, мл': 50,
+        'рис круглозерый': 150,
+    },
     # можете добавить свои рецепты ;)
 }
 
-# Напишите ваш обработчик. Используйте DATA как источник данных
-# Результат - render(request, 'calculator/index.html', context)
-# В качестве контекста должен быть передан словарь с рецептом:
-# context = {
-#   'recipe': {
-#     'ингредиент1': количество1,
-#     'ингредиент2': количество2,
-#   }
-# }
+
+def reciept(request, dish='firmennoe', servings=1):
+    if request.GET('dish') and request.GET('serving'):
+        dish = request.GET('dish')
+        servings = request.GET('servings')
+        content = DATA[dish]
+        content.update({n: servings * content[n] for n in content.keys()})
+        render(request, '', content)
+    elif request.GET('dish'):
+        dish = request.GET('dish')
+        render(request, '', DATA[dish])
+    elif request.GET('servings'):
+        servings = request.GET('servings')
+        content = DATA[dish]
+        content.update({n: servings * content[n] for n in content.keys()})
+    else:
+        render(request, '', DATA[dish])
