@@ -1,10 +1,11 @@
-<!DOCTYPE html>
-<html lang="ru">
-<head>
-    <meta charset="UTF-8">
-    <title>Рецепты</title>
-</head>
-<body>
+{% extends 'calculator/layout.html' %}
 
-</body>
-</html>
+{% block title %}Рецепты {{ dish }}{% endblock %}
+
+{% block content %}
+
+    {% for ingridient, value in content.items %}
+        <p>{{ ingridient }}: {{ value }}</p>
+    {% endfor %}
+
+{% endblock %}
