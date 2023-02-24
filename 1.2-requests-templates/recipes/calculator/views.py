@@ -1,4 +1,5 @@
 from django.shortcuts import render
+from django.http import HttpResponse
 
 DATA = {
     'omlet': {
@@ -20,25 +21,15 @@ DATA = {
         'куриная грудка, г': 200,
         'лук репчатый, г': 50,
         'соевый соус, мл': 50,
-        'рис круглозерый': 150,
+        'рис круглозерный': 150,
     },
     # можете добавить свои рецепты ;)
 }
 
 
-def reciept(request, dish='firmennoe', servings=1):
-    if request.GET('dish') and request.GET('serving'):
-        dish = request.GET('dish')
-        servings = request.GET('servings')
-        content = DATA[dish]
-        content.update({n: servings * content[n] for n in content.keys()})
-        render(request, '', content)
-    elif request.GET('dish'):
-        dish = request.GET('dish')
-        render(request, '', DATA[dish])
-    elif request.GET('servings'):
-        servings = request.GET('servings')
-        content = DATA[dish]
-        content.update({n: servings * content[n] for n in content.keys()})
-    else:
-        render(request, '', DATA[dish])
+def reciept(request, dish):
+    template = 'calculator/index.html'
+    servings = int(request.GET.get('servings', 1))
+    content = DATA[dish].copy()
+    content.update({n: servings * content[n] for n in content.keys()})
+    return render(request, template, {'content': content})
