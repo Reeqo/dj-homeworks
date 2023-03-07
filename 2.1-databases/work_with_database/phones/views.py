@@ -15,7 +15,6 @@ def show_catalog(request):
         phone_objects = reversed(Phone.objects.all().order_by('price'))
     else:
         phone_objects = Phone.objects.all().order_by(sort)
-    print(phone_objects)
     return render(request, template, {'phones': phone_objects})
 
 
