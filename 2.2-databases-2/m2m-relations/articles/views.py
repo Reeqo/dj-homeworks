@@ -1,14 +1,16 @@
 from django.shortcuts import render
-
 from articles.models import Article
 
 
 def articles_list(request):
+    sort = request.GET.get('sort')
     template = 'articles/news.html'
-    context = {}
-
-    # используйте этот параметр для упорядочивания результатов
-    # https://docs.djangoproject.com/en/3.1/ref/models/querysets/#django.db.models.query.QuerySet.order_by
-    ordering = '-published_at'
-
+    if sort == 'date':
+        articles = Article.objects.order_by('-published_at')
+    elif sort == 'title':
+        articles = Article.objects.order_by('title')
+    else:
+        articles = Article.objects.all()
+    print(articles)
+    context = {'articles': articles}
     return render(request, template, context)
